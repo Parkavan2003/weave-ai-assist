@@ -21,7 +21,7 @@ const Auth = () => {
 
   useEffect(() => {
     if (user) {
-      navigate('/');
+      navigate('/dashboard');
     }
   }, [user, navigate]);
 
@@ -40,8 +40,8 @@ const Auth = () => {
           });
         } else {
           toast({
-            title: 'Success!',
-            description: 'Please check your email to confirm your account.',
+            title: 'Welcome!',
+            description: 'Your account has been created successfully. You can now start building chatbots!',
           });
         }
       } else {
