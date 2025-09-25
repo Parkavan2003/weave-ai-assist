@@ -135,7 +135,11 @@ export const ChatInterface = ({
         },
       });
 
-      if (error) throw error;
+      if (error) {
+        // Extract error message from Supabase function response
+        const errorDetails = error.details || error.message || 'Unknown error occurred';
+        throw new Error(errorDetails);
+      }
 
       // Add assistant message to local state
       const assistantMessage = {
@@ -148,9 +152,16 @@ export const ChatInterface = ({
 
     } catch (error) {
       console.error('Error sending message:', error);
+      let errorMessage = 'Failed to send message';
+      
+      // Try to extract the specific error from the response
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      
       toast({
         title: 'Error',
-        description: 'Failed to send message',
+        description: errorMessage,
         variant: 'destructive',
       });
     } finally {

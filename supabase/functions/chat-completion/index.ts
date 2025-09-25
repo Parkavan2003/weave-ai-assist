@@ -70,7 +70,17 @@ serve(async (req) => {
     if (!response.ok) {
       const errorText = await response.text();
       console.error('OpenAI API error:', response.status, errorText);
-      throw new Error(`OpenAI API error: ${response.status} ${errorText}`);
+      
+      // Handle specific OpenAI API errors
+      if (response.status === 429) {
+        throw new Error('OpenAI API rate limit exceeded. Please check your API quota and billing.');
+      } else if (response.status === 401) {
+        throw new Error('OpenAI API key is invalid. Please check your API key configuration.');
+      } else if (response.status === 403) {
+        throw new Error('OpenAI API access forbidden. Please check your API key permissions.');
+      } else {
+        throw new Error(`OpenAI API error: ${response.status} ${errorText}`);
+      }
     }
 
     const data = await response.json();
@@ -103,8 +113,9 @@ serve(async (req) => {
 
   } catch (error) {
     console.error('Error in chat-completion function:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
     return new Response(JSON.stringify({ 
-      error: error.message 
+      error: errorMessage 
     }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
