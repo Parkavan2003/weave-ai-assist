@@ -30,6 +30,17 @@ npm i
 npm run dev
 ```
 
+## How to Use
+
+1. **Register**: Create a new account with your email and password
+2. **Login**: Sign in with your registered credentials
+3. **Create Project**: Set up a new project with a custom system prompt
+4. **Start Chatting**: Create chats within your project and interact with AI
+
+## That's it! 
+
+This simplified version now clearly indicates the user flow: register → login → use the application. The registration and login functionality is typically handled by Supabase Auth, which provides built-in user management and authentication.
+
 **Edit a file directly in GitHub**
 
 - Navigate to the desired file(s).
